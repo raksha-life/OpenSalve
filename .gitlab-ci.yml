@@ -1,0 +1,15 @@
+# cache:
+#   paths:
+#     - ~/.cache/pip/
+
+deploy:
+  script:
+    - pwd
+    - cp /opt/rebuildearth/apiserver/config/.env .
+    - pipenv install 
+    - pipenv run python manage.py makemigrations
+    - pipenv run python manage.py migrate
+    - pipenv run python manage.py test
+    - pipenv run python manage.py collectstatic --no-input
+    - sudo systemctl restart gunicorn
+ 
