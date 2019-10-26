@@ -18,6 +18,10 @@ from django.conf.urls import url
 from django.urls import include, path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from opensalve.views import index
 
@@ -41,6 +45,16 @@ urlpatterns = [
     path('api/camps/', include('camps.urls')),
     path('api/collectioncentres/', include('collectioncentres.urls')),
     path('api/news/', include('news.urls')),
+    path(
+        'api/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
+    ),
+    path(
+        'api/token/',
+        TokenObtainPairView.as_view(),
+        name='token_obtain_pair',
+    ),
     url(
         '^docs/$',
         schema_view.with_ui('swagger', cache_timeout=0),
